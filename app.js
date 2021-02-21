@@ -10,6 +10,11 @@ app.use(bodyParser.json());
 
 app.use('/', router);
 
+router.get('/abc' ,async (req,res) => {
+    res.status(200).send({"message":"hello"});
+	
+});
+
 router.post('login' ,async (req,res) => {
     const response = await loginUser(req);
     res.status(response.statusCode).send(response.body);
