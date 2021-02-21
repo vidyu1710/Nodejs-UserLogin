@@ -12,8 +12,8 @@ async function registerUser(request) {
 }
 
 async function loginUser(request) {
-    const email = request.body.email;
-    const password = request.body.password;
+    const email = request.query.email;
+    const password = request.query.password;
     const response = await user.loginUser(email, password)
     return response;
 }
