@@ -28,7 +28,7 @@ router.post('users/list' ,async (req,res) => {
 
 const SERVER = 
 {
-    port: 9000,
+    port: 5000,
     api_version: 1
 }
 
