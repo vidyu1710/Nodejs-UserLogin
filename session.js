@@ -13,11 +13,10 @@ async function createSession(userSessionData) {
     return { token, refreshToken }
 }
 
-async function checkSession(token, employeeId) {
+async function checkSession(token) {
     try {
-        token = token.split(' ')[1]
         let data = jwt.verify(token, secretKey)
-        if (token && data.employeeId === employeeId) {
+        if (token && data) {
             return {
                 sessionValid: true,
                 tokenExpired: false
@@ -30,8 +29,9 @@ async function checkSession(token, employeeId) {
     catch (err) {
         if (err.name === 'TokenExpiredError') {
             throw new RefreshTokenRequiredError("User token has Expired")
+        } else if (err.name === 'RefreshTokenRequiredError') {
+            throw new RefreshTokenRequiredError("User token has Expired. Refresh token is required")
         } else {
-            console.log(err)
             throw new InvalidTokenError("Invalid token was supplied")
         }
     }

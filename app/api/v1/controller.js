@@ -1,3 +1,4 @@
+const { autoInject } = require('async');
 const user = require('./core/user');
 
 async function registerUser(request) {
@@ -17,7 +18,18 @@ async function loginUser(request) {
     return response;
 }
 
+async function getUserList(request) {
+    const lastPageNo = request.body.lastPageNo;
+    const requiredRecords = request.body.requiredRecords;
+    const searchParams = request.body.searchParams;
+    const sortBy = request.body.sortBy;
+    const token = request.headers.authorization;
+    const response = await user.getUserList(lastPageNo, requiredRecords, searchParams, token, sortBy);
+    return response;
+}
+
 module.exports = {
     registerUser,
     loginUser,
+    getUserList,
 }

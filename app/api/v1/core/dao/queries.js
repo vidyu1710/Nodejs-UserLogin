@@ -17,4 +17,11 @@ module.exports = {
     getUserInformation: `
     SELECT u.email, u.password_hash as passwordHash, u.employee_id as employeeId
     FROM [User] u WHERE u.email = @email`,
+    getUserList: `
+    SELECT (SELECT COUNT(u.id) as totalRecords FROM [User] u, Employee e 
+    WHERE u.employee_id = e.id searchSubQuery) as totalRecords,
+    (SELECT u.email, u.employee_id as employeeId, e.first_name, e.last_name, e.organization_name
+    FROM [User] u, Employee e WHERE u.employee_id = e.id searchSubQuery 
+    OFFSET @totalLastRecords ROWS FETCH NEXT @requiredRecords ROWS ONLY FOR JSON PATH) as users
+    `
 }

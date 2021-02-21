@@ -1,5 +1,5 @@
 
-let { registerUser, loginUser } = require('./app/api/v1/controller');
+let { registerUser, loginUser, getUserList } = require('./app/api/v1/controller');
 const express = require('express');
 const app = express();
 var router = express.Router();
@@ -21,13 +21,10 @@ router.post('/register' ,async (req,res) => {
     res.status(response.statusCode).send(response.body);	
 });
 
-// router.get('/users/list' ,async (req,res) => {
-//     // res.setHeader({'Content-type':'Application/JSON'});
-//     // console.log("req body is",JSON.stringify(req));
-//         const response = await insertUnits(req);
-//         res.send(response);
-	
-// });
+router.post('/users/list' ,async (req,res) => {
+    const response = await getUserList(req);
+    res.status(response.statusCode).send(response.body);	
+});
 
 const SERVER = 
 {

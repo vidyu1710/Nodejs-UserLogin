@@ -1,5 +1,5 @@
 const userDao = require('./dao/userDao');
-const { createSession } = require('../../../../session');
+const { createSession, checkSession } = require('../../../../session');
 const bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
 
@@ -49,7 +49,6 @@ async function registerUser(email, password, firstName, lastName, companyName) {
         };
         return {statusCode : 500, body: result};
     }
-
 }
 
 async function loginUser(email, password) {
@@ -90,7 +89,48 @@ async function loginUser(email, password) {
 
 }
 
+async function getUserList(lastPageNo, requiredRecords, searchParams, token, sortBy) {
+    let result;
+    try {
+        const sessionResponse = await checkSession(token)
+        if(sessionResponse && sessionResponse.sessionValid === true && sessionResponse.tokenExpired === false) {
+            let totalLastRecords = 0;
+            if (!requiredRecords) 
+                requiredRecords = 10;
+            if (lastPageNo > 0) 
+                totalLastRecords = (lastPageNo * requiredRecords);
+            const response = await userDao.getUserList(totalLastRecords, requiredRecords, searchParams, sortBy);
+            if(response.length > 0){
+                result = {
+                    status: 'success',
+                    data: response
+                };
+                return {statusCode : 200, body: result};
+            }
+            else {
+                result = {
+                    status: 'error',
+                    message: 'No user data found'
+                };
+                return {statusCode : 404, body: result};
+            }
+        } else {
+            result = {
+                status: 'error',
+                message: 'Invalid user session'
+            };
+            return {statusCode : 401, body: result};
+        }
+    } catch(e) {
+        result = {
+            status: 'error',
+            message: e.message
+        };
+        return {statusCode : 500, body: result};
+    }
+}
 module.exports = {
     registerUser,
     loginUser,
+    getUserList,
 }
