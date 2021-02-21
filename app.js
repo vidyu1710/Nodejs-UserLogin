@@ -33,4 +33,4 @@ const SERVER =
 }
 
 
-app.listen(SERVER.port, () => console.log(`Server started on port :` + SERVER.port));
+app.listen(process.env.PORT || 5000)
