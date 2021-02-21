@@ -1,0 +1,18 @@
+use master
+
+DROP TABLE employee
+CREATE TABLE Employee (
+	id INTEGER PRIMARY KEY IDENTITY,
+	first_name VARCHAR(50),
+	last_name VARCHAR(50),
+	organization_name VARCHAR(100),
+	created_at DATETIMEOFFSET DEFAULT GETUTCDATE(),
+)
+CREATE TABLE [User](
+	id INTEGER PRIMARY KEY IDENTITY,
+	employee_id INTEGER,
+	email VARCHAR(50) UNIQUE NOT NULL,
+	password_hash VARCHAR(500),
+	created_at DATETIMEOFFSET DEFAULT GETUTCDATE(),
+	CONSTRAINT FK_employeeId FOREIGN KEY(employee_id) REFERENCES Employee(id),
+)
