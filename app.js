@@ -10,18 +10,18 @@ app.use(bodyParser.json());
 
 app.use('/', router);
 
-router.post('/login' ,async (req,res) => {
+router.post('login' ,async (req,res) => {
     const response = await loginUser(req);
     res.status(response.statusCode).send(response.body);
 	
 });
 
-router.post('/register' ,async (req,res) => {
+router.post('register' ,async (req,res) => {
     const response = await registerUser(req);
     res.status(response.statusCode).send(response.body);	
 });
 
-router.post('/users/list' ,async (req,res) => {
+router.post('users/list' ,async (req,res) => {
     const response = await getUserList(req);
     res.status(response.statusCode).send(response.body);	
 });
