@@ -1,6 +1,5 @@
 use master
 
-DROP TABLE employee
 CREATE TABLE Employee (
 	id INTEGER PRIMARY KEY IDENTITY,
 	first_name VARCHAR(50),

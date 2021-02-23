@@ -15,7 +15,7 @@ router.get('/abc' ,async (req,res) => {
 	
 });
 
-router.get('login' ,async (req,res) => {
+router.post('login' ,async (req,res) => {
     const response = await loginUser(req);
     res.status(response.statusCode).send(response.body);
 	
